@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,500;1,300&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <title>Usuarios-Lista</title>
+</head>
+<style>
+    :root {
+        --background-color: #F6F6F6;
+        --primary-color: #1B3B48;
+        --white: #fff;
+        --grey: #E7E7E7;
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: 0;
+    }
+
+    body {
+        background: var(--background-color);
+        --webkit-font-smoothing: antialiased;
+    }
+
+    body, input, textarea, button {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    [disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .header{
+        background-color: var(--primary-color);
+    }
+
+    .header header{
+        padding: 2rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header img{
+        max-width: 150px;
+    }
+
+    .table {
+        margin-top: 5rem;
+    }
+
+    table {
+        width: 100%;
+        background-color: white;
+        border-radius: 1rem;
+        -webkit-box-shadow: 0px 0px 4px 0px #000000; 
+        box-shadow: 0px 0px 4px 0px #000000;
+        
+    }
+    
+    table thead th{
+        font-size: 1.5rem;
+        padding: 1rem;
+        border-bottom: 1px solid var(--primary-color);
+    }
+
+</style>
+<body>
+    <div class="header">
+        <header class="container">
+            <img src="logoUnipe.svg" alt="logotipo da Unipe">
+        </header>
+    </div>
+    <div class="container">
+        <div class="table">
+            <table>
+                <thead>
+                    <th>MATRICULA</th>
+                    <th>NOME</th>
+                    <th>E-MAIL</th>
+                    <th>CURSO</th>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function getUsers(){
+            //const response = await fetch('https://api.randomuser.me/?results=10')
+            const response = await fetch('http://localhost:3000/alunos')
+            const data = await response.json()
+            //const results = data.results;
+
+            //createTableRow(results);
+            createTableRow(data);
+
+            //Minha versão
+            // for(i=0; i < data.results.length; i++){
+            //     const nameUser = data.results[i].name.first;
+            //     const emailUser = data.results[i].email;
+            //     const imageUser = data.results[i].picture.thumbnail;
+               
+            //     const tbody = document.getElementById('tbody')
+            //     const line = document.createElement('tr') //tr = linha; td = coluna
+            //     tbody.appendChild(line) //dentro do elemento tbody foi criado uma linha
+                
+            //     const column1 = document.createElement('td')
+            //     column1.innerHTML = `<img src=${imageUser}>`;
+            //     line.appendChild(column1)
+
+            //     const column2 = document.createElement('td')
+            //     column2.innerText = nameUser;
+            //     line.appendChild(column2)
+
+            //     const column3 = document.createElement('td')
+            //     column3.innerText = emailUser;
+            //     line.appendChild(column3)
+
+            // }
+        }
+
+        getUsers()
+
+        //Versão do Thales
+        function createTableRow(data){
+            const tbody = document.getElementById('tbody');
+
+            for (const item of data){
+                //const imageUser = item.picture.thumbnail;
+                const firstName = item.nome;
+                const matricula = item.id;
+                const email = item.email;
+                const curso = item.curso;
+
+                const line = document.createElement('tr');
+                tbody.appendChild(line);
+
+                //const columnImage = document.createElement('td');
+                //columnImage.style.padding = '1rem';
+                //line.appendChild(columnImage);
+
+               // const imgUser = document.createElement('img');
+               // imgUser.setAttribute('src', imageUser);
+               // imgUser.style.borderRadius = "50%";
+               // columnImage.appendChild(imgUser);
+
+                const columnMatricula = document.createElement('td');
+                columnMatricula.innerText = `${matricula}`;
+                //columnName.style.fontWeight = 700;
+                line.appendChild(columnMatricula);
+
+                const columnName = document.createElement('td');
+                columnName.innerText = `${firstName}`;
+                columnName.style.fontWeight = 700;
+                line.appendChild(columnName);
+
+                const columnEmail = document.createElement('td');
+                columnEmail.innerText = email;
+                line.appendChild(columnEmail);
+
+                const columnCurso = document.createElement('td');
+                columnCurso.innerText = curso;
+                line.appendChild(columnCurso);
+            }
+        }
+
+    </script>
+</body>
+</html>
